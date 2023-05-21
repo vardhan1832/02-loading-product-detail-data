@@ -17,7 +17,7 @@
     <br>
     <section class="container">
         <div class="card">
-            <form class="form-control" onsubmit="signup(e)">
+            <form class="form-control" onsubmit="signup(event)">
                 <label for="username" class="form-label">Enter your name:</label>
                 <input type="text" class="form-control" id="username" name="name" required>
                 <label for="email" class="form-label">Enter your mail:</label>
@@ -31,26 +31,7 @@
         <a href="./login.html">existing user - login</a>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script>
-        async function signup(e){
-            try{
-                e.preventDefault();
-                const userObj={
-                    name:e.target.name.value,
-                    email: e.target.mail.value,
-                    password: e.target.password
-                }
-                const response = await axios.post('http://localhost:3000/user/sign-up',userObj)
-                if(response.status===201){
-                    window.location.href='./login.html';
-                }else{
-                    throw new Error('failed to login');
-                }
-            }catch(err){
-                console.log(err)
-            } 
-        }
-    </script>
+    <script src="./signup.js"></script>
 
 </body>
 </html>

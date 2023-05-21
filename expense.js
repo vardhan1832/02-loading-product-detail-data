@@ -7,23 +7,25 @@ const sequelize = require('./util/database')
 
 var cors = require('cors')
 
-const expense = express();
-expense.use(cors())
+const app = express();
+app.use(cors())
 
 const signinroutes = require('./routes/signin')
+const loginroutes = require('./routes/login')
 
 
-expense.use(bodyParser.json({ extended: false }));
+app.use(bodyParser.json({ extended: false }));
 // app.use(bodyParser.urlencoded({ extended: false }));
-// expense.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
-expense.use(signinroutes);
+app.use('/user',signinroutes);
+app.use('/user',loginroutes)
 
 
 sequelize.sync()
 .then(res=>{
     // console.log(res)
-    expense.listen(3000)
+    app.listen(4000)
 })
 .catch(err=>{
     console.log(err);

@@ -17,18 +17,18 @@
     <br>
     <section class="container">
         <div class="card">
-            <form class="form-control">
-                <label for="username" class="form-label">Enter your name:</label>
-                <input type="text" class="form-control" id="username" name="name" required>
+            <form class="form-control" onsubmit="login(event)">
                 <label for="email" class="form-label">Enter your mail:</label>
                 <input type="email" class="form-control" id="email" name="mail" required>
                 <label for="pass" class="form-label">Password:</label>
                 <input type="password" class="form-control" id="pass" name="password" required><br>
-                <button>submit</button>
+                <button type="submit">Login</button>
             </form>
            
         </div>
-        <a href="./signup.html">new user - signup</a>
+        <a href="./signup.html">New user - signup</a>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="./signup.js"></script>
 </body>
 </html>
