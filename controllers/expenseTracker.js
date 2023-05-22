@@ -5,7 +5,7 @@ exports.postExpenses = async (req,res,next)=>{
         const amount = req.body.amount;
         const category = req.body.categry;
         const description = req.body.descript;
-        const data = await Expense.create({amount: amount,category: category,description: description})
+        const data = await Expense.create({amount: amount,category: category,description: description , UserId: req.user.id})
         res.status(201).json({userexpense: data});
     }catch(err){
         res.status(500).json({error:err})
@@ -13,7 +13,7 @@ exports.postExpenses = async (req,res,next)=>{
 }
 exports.getExpenses = async (req,res,next)=>{
     try{
-        const expenses = await Expense.findAll();
+        const expenses = await req.user.getExpenses();
         res.status(201).json({allexpenses: expenses});
     }catch(err){
         res.status(500).json({error: err})

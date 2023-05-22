@@ -2,13 +2,14 @@ let itemList = document.getElementById('items');
 
 async function save(event){   
     try{
+        const token = localStorage.getItem('token')
         event.preventDefault();
         let userObj={        
           amount : event.target.Amount.value,
           categry: event.target.category.value,
           descript : event.target.description.value,    
         }
-        const response = await axios.post('http://localhost:4000/user/add-expense',userObj)
+        const response = await axios.post('http://localhost:4000/user/add-expense',userObj,{ headers: { "Authorization" : token}})
         if(response.status === 201){
             newlist(response.data.userexpense);
         }          
@@ -18,6 +19,7 @@ async function save(event){
 }   
 
 function newlist(e){
+      const token = localStorage.getItem('token')
       let li = document.createElement('li');
       li.className='list-group-item';
       let userInfo = `${e.amount} - ${e.category}, ${e.description}` ;
@@ -41,7 +43,7 @@ function newlist(e){
 
       deleteBtn.onclick=async ()=>{   
         try{
-            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`)
+            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token}})
             console.log(res)
             if(res.status === 201){
                 itemList.removeChild(li); 
@@ -58,7 +60,7 @@ function newlist(e){
             document.getElementById('expAmt').value = e.amount;
             document.getElementById('selectcategory').value = e.category;
             document.getElementById('desc').value = e.description;
-            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`)
+            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token}})
             console.log(res)
             if(res.status === 201){
                 itemList.removeChild(li); 
@@ -73,7 +75,8 @@ function newlist(e){
 }
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
-        const response = await axios.get('http://localhost:4000/user/add-expense')
+        const token = localStorage.getItem('token')
+        const response = await axios.get('http://localhost:4000/user/add-expense',{ headers: {"Authorization": token}})
         console.log(response)
         if(response.status === 201){
             for(var i=0;i<response.data.allexpenses.length;i++){

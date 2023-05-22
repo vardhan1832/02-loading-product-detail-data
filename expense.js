@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 
 const sequelize = require('./util/database')
 
+const User = require('./models/signin')
+const Expense = require('./models/expenseTracker')
+
 var cors = require('cors')
 
 const app = express();
@@ -23,6 +26,8 @@ app.use('/user',signinroutes);
 app.use('/user',loginroutes)
 app.use('/user',expenseroutes)
 
+User.hasMany(Expense)
+Expense.belongsTo(User)
 
 sequelize.sync()
 .then(res=>{
