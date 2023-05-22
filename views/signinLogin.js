@@ -14,7 +14,7 @@ async function signup(e){
             throw new Error('failed to signin');
         }
     }catch(err){
-        console.log(err)
+        document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`
     } 
 }
 
@@ -29,6 +29,7 @@ async function login(e){
         const response = await axios.post('http://localhost:4000/user/login',loginDetails)
         if(response.status === 201){
             alert(response.data.message)
+            window.location.href='./expenseTracker.html';
         }else{
             throw new Error(response.data.message)
         }

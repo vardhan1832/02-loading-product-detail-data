@@ -12,6 +12,7 @@ app.use(cors())
 
 const signinroutes = require('./routes/signin')
 const loginroutes = require('./routes/login')
+const expenseroutes = require('./routes/expenseTracker')
 
 
 app.use(bodyParser.json({ extended: false }));
@@ -20,6 +21,7 @@ app.use(bodyParser.json({ extended: false }));
 
 app.use('/user',signinroutes);
 app.use('/user',loginroutes)
+app.use('/user',expenseroutes)
 
 
 sequelize.sync()
