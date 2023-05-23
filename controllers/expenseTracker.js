@@ -22,8 +22,13 @@ exports.getExpenses = async (req,res,next)=>{
 exports.deleteExpense = async (req,res,next)=>{
     try{
         const id = req.params.expid;
-        await Expense.destroy({where:{id: id}})
-        res.status(201).json({message: 'expense deleted successfully'})
+        const expense = await Expense.findByPk(id)
+        if(expense.UserId === req.user.id){
+            await Expense.destroy({where:{id: id, UserId: req.user.id}})
+            res.status(201).json({message: 'expense deleted successfully'})
+        }else{
+            throw new Error(err)
+        }
     }catch(err){
         res.status(500).json({error: err})
     }
