@@ -5,22 +5,10 @@ const sequelize = require('sequelize')
 
 const getleaderboard = async (req,res,next)=>{
     try{
-        const aggregatedexpenses = await Expenses.findAll({
-            attributes: ['UserId',],
-            group: ['UserId']
-        })
         const leaderboardUsers = await User.findAll({
-            attributes: ['id','name',[sequelize.fn('sum' , sequelize.col('expenses.amount') ), 'total_amount']],
-            include:[
-                {
-                    model: Expenses,
-                    attributes: []
-                }
-            ],
-            group: ['User.id'],
-            order: [['total_amount' , 'DESC']]
+            attributes: ['name','totalexpense'],
+            order: [['totalexpense' , 'DESC']]
         })
-     
         res.status(201).json(leaderboardUsers)
     }catch(err){
         console.log(err)

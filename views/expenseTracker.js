@@ -62,7 +62,7 @@ async function leaderboard(e){
             document.getElementById('lead-div').innerHTML = '<h3 style="color: white;">Leaderboard: </h3>'
             document.getElementById('user-leaderboard').innerHTML = '';
             response.data.forEach(user=>{
-                document.getElementById('user-leaderboard').innerHTML += ` <li style="color: black;background-color: rgba(250, 242, 255, 0.979);" class="list-group-item"> Name - ${user.name} , Total Expense - ${user.total_amount} </li>`
+                document.getElementById('user-leaderboard').innerHTML += ` <li style="color: black;background-color: rgba(250, 242, 255, 0.979);" class="list-group-item"> Name - ${user.name} , Total Expense - ${user.totalexpense} </li>`
             })
         }
     }catch(err){
