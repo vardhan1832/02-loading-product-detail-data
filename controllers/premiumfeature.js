@@ -1,25 +1,27 @@
 const Order = require('../models/order')
 const User = require('../models/signin')
 const Expenses = require('../models/expenseTracker')
+const sequelize = require('sequelize')
 
 const getleaderboard = async (req,res,next)=>{
     try{
-        const expenses = await Expenses.findAll()
-        const users = await User.findAll()
-        const aggregatedexpenses = {};
-        expenses.forEach(expense => {
-            if(aggregatedexpenses[expense.UserId]){
-                aggregatedexpenses[expense.UserId] += expense.amount
-            }else{
-                aggregatedexpenses[expense.UserId] = expense.amount
-            }
-            });
-        let leaderboardUser = []
-        users.forEach(user=>{
-            leaderboardUser.push({ name: user.name , total_amount: aggregatedexpenses[user.id]});
+        const aggregatedexpenses = await Expenses.findAll({
+            attributes: ['UserId',],
+            group: ['UserId']
         })
-        leaderboardUser.sort((a,b) => b.total_amount - a.total_amount)
-        res.status(201).json(leaderboardUser)
+        const leaderboardUsers = await User.findAll({
+            attributes: ['id','name',[sequelize.fn('sum' , sequelize.col('expenses.amount') ), 'total_amount']],
+            include:[
+                {
+                    model: Expenses,
+                    attributes: []
+                }
+            ],
+            group: ['User.id'],
+            order: [['total_amount' , 'DESC']]
+        })
+     
+        res.status(201).json(leaderboardUsers)
     }catch(err){
         console.log(err)
         res.status(405).json('error')

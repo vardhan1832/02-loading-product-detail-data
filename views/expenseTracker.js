@@ -30,7 +30,7 @@ document.getElementById('rzp-button1').onclick = async function (e){
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id
             },{ headers: { "Authorization" : token}} ).then(()=>{
-                document.getElementById('rzp-button1').remove();
+                document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-left: auto;margin-top: 0.5rem">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px">Show Leaderboard</button>`
             })
@@ -62,16 +62,12 @@ async function leaderboard(e){
             document.getElementById('lead-div').innerHTML = '<h3 style="color: white;">Leaderboard: </h3>'
             document.getElementById('user-leaderboard').innerHTML = '';
             response.data.forEach(user=>{
-                leaderboardList(user)
+                document.getElementById('user-leaderboard').innerHTML += ` <li style="color: black;background-color: rgba(250, 242, 255, 0.979);" class="list-group-item"> Name - ${user.name} , Total Expense - ${user.total_amount} </li>`
             })
         }
     }catch(err){
         console.log(err)
     }
-}
-
-function leaderboardList(user){
-    document.getElementById('user-leaderboard').innerHTML += ` <li style="color: black;background-color: rgba(250, 242, 255, 0.979);" class="list-group-item"> Name - ${user.name} , Total Expense - ${user.total_amount} </li>`
 }
 
 function newlist(e){
@@ -137,7 +133,7 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         console.log(response)
         if(response.status === 201){
             if(response.data.isPremiumUser === true){
-                document.getElementById('rzp-button1').remove();
+                document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-left: auto;margin-top: 0.5rem">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px">Show Leaderboard</button>`
             }
