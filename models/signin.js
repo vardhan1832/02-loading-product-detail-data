@@ -16,6 +16,9 @@ const User = sequelize.define('User',{
         allowNull: false,
         unique: true
     },
+    totalexpense:{
+        type: Sequelize.DOUBLE
+    },
     password:{
         type: Sequelize.STRING,
         allowNull: false

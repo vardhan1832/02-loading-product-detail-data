@@ -5,7 +5,9 @@ exports.postExpenses = async (req,res,next)=>{
         const amount = req.body.amount;
         const category = req.body.categry;
         const description = req.body.descript;
+        let total_expenses = JSON.parse(amount) + req.user.totalexpense;
         const data = await Expense.create({amount: amount,category: category,description: description , UserId: req.user.id})
+        await req.user.update({totalexpense: total_expenses })
         res.status(201).json({userexpense: data});
     }catch(err){
         res.status(500).json({error:err})
