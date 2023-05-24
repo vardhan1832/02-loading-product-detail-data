@@ -1,10 +1,11 @@
 const User = require('../models/signin');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const authentication = async (req,res,next)=>{
     try{
         const token = req.header('Authorization');
-        const userobj = jwt.verify(token , 'secret token')
+        const userobj = jwt.verify(token , process.env.SECRET_TOKEN)
         const user = await User.findByPk(userobj.UserId);
         if(user){
             req.user = user;

@@ -14,7 +14,7 @@ exports.postExpenses = async (req,res,next)=>{
 exports.getExpenses = async (req,res,next)=>{
     try{
         const expenses = await req.user.getExpenses();
-        res.status(201).json({allexpenses: expenses});
+        res.status(201).json({allexpenses: expenses, isPremiumUser: req.user.isPremiumUser});
     }catch(err){
         res.status(500).json({error: err})
     }

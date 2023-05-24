@@ -5,8 +5,8 @@ const Razorpay = require('razorpay');
 const purchasepremium = async (req,res,next)=>{
     try{
         const rzp = new Razorpay({
-            key_id: 'rzp_test_m75WdNO5QlQ7ny',
-            key_secret: '2VgIUX9EU10M1x3A1ny2F6kN'
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_KEY_SECRET
         })
         const amount = 2500;
         rzp.orders.create({amount, currency:'INR'},(err,order)=>{
@@ -29,17 +29,21 @@ const purchasepremium = async (req,res,next)=>{
 const updatetransactionstatus = async (req,res,next)=>{
     try{
         const { order_id , payment_id} = req.body;
-        Order.findOne({where: { orderid: order_id}}).then(order=>{
-            order.update({paymentid: payment_id , status: "SUCCESS"}).then(()=>{
-                req.user.update({isPremiumUser: true}).then(()=>{
-                    return res.status(202).json({success: true, message: 'Transaction successful'})
-                }).catch(err=>{
-                    throw new Error(err)
-                })
+        if(payment_id){
+            const order = await Order.findOne({where: { orderid: order_id}})
+            let promise1 =  order.update({paymentid: payment_id , status: "SUCCESS"})
+            let promise2 =  req.user.update({isPremiumUser: true})
+            Promise.all([promise1,promise2]).then(()=>{
+                res.status(202).json({success: true, message: 'Transaction successful'})
             }).catch(err=>{
-                throw new Error(err)
+                throw new Error(err);
+             })
+        }else{
+            const order = await Order.findOne({where: { orderid: order_id}})
+            order.update({status: "FAILED"}).then(()=>{
+                res.status(202).json({success: true, message: 'Transaction failed'})
             })
-        })
+        } 
     }catch(err){
         console.log(err)
         return res.status(405).json({message: 'Transaction failed'})
