@@ -8,6 +8,7 @@ const sequelize = require('./util/database')
 const User = require('./models/signin')
 const Expense = require('./models/expenseTracker')
 const Order = require('./models/order')
+const ForgotPasswordRequests = require('./models/forgotpass')
 
 var cors = require('cors')
 
@@ -36,6 +37,9 @@ Expense.belongsTo(User)
 
 User.hasMany(Order)
 Order.belongsTo(User)
+
+User.hasMany(ForgotPasswordRequests)
+ForgotPasswordRequests.belongsTo(User)
 
 
 sequelize.sync()

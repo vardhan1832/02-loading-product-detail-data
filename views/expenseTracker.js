@@ -31,8 +31,8 @@ document.getElementById('rzp-button1').onclick = async function (e){
                 payment_id: response.razorpay_payment_id
             },{ headers: { "Authorization" : token}} ).then(()=>{
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
-                document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-left: auto;margin-top: 0.5rem">Premium Feature: </h4>`;
-                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px">Show Leaderboard</button>`
+                document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
+                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
             })
 
             alert('You are a Premium User Now')
@@ -134,8 +134,8 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         if(response.status === 201){
             if(response.data.isPremiumUser === true){
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
-                document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-left: auto;margin-top: 0.5rem">Premium Feature: </h4>`;
-                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px">Show Leaderboard</button>`
+                document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
+                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
             }
             for(var i=0;i<response.data.allexpenses.length;i++){
                 newlist(response.data.allexpenses[i]);

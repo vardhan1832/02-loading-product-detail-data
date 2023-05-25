@@ -48,6 +48,11 @@ async function Send(e){
         }
         const response = await axios.post('http://localhost:4000/password/forgotpassword',emailobj)
         console.log(response.data)
+        if(response.status === 202){
+            document.body.innerHTML += '<section class="container"><div style="color:red;">Mail Successfuly sent <div></section>'
+        } else {
+            throw new Error('Something went wrong!!!')
+        }
     }catch(err){
         document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`
     }
