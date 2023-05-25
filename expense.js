@@ -26,7 +26,7 @@ app.use(bodyParser.json({ extended: false }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user',signinroutes);
-app.use('/user',loginroutes)
+app.use(loginroutes)
 app.use('/user',expenseroutes)
 app.use(purchaseroutes)
 app.use(premiumfeatureroutes)

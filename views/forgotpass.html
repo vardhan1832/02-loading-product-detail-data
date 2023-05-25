@@ -11,20 +11,18 @@
 <body style="background-image: url('https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?auto=compress&cs=tinysrgb&w=600');">
     <header class="p-4">
         <nav style="flex-wrap: wrap;margin-left: 7%;">
-                <h1 style="color: white;">LOGIN</h1>
+                <h1 style="color: white;">Reset Password</h1>
         </nav>
     </header>
     <br>
     <section class="container">
         <div class="card">
-            <form class="form-control" style="background-color: rgba(250, 242, 255, 0.979);" onsubmit="login(event)">
+            <form class="form-control" style="background-color: rgba(250, 242, 255, 0.979);" onsubmit="Send(event)">
                 <label for="email" class="form-label">Enter your mail:</label>
-                <input type="email" class="form-control" id="email" name="mail" required>
-                <label for="pass" class="form-label">Password:</label>
-                <input type="password" class="form-control" id="pass" name="password" required><br>
-                <button type="submit">Login</button>
+                <input type="email" class="form-control" id="email" name="mail" required><br>
+                <button type="submit">Submit</button>
                 <a style="color: rgb(0, 0, 0);margin-left: 2%;" href="./signup.html">New User - SIGN UP</a>
-                <a style="color: rgb(0, 0, 0);float:right;" href="./forgotpass.html">Forgot Password</a>
+                <a style="color: rgb(0, 0, 0);float:right;" href="./signup.html">Forgot Password</a>
             </form>
            
         </div>

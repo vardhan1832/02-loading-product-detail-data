@@ -39,3 +39,16 @@ async function login(e){
         document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`
     }
 }
+
+async function Send(e){
+    try{
+        e.preventDefault();
+        const emailobj ={
+            email: e.target.mail.value
+        }
+        const response = await axios.post('http://localhost:4000/password/forgotpassword',emailobj)
+        console.log(response.data)
+    }catch(err){
+        document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`
+    }
+}
