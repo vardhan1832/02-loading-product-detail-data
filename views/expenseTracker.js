@@ -33,6 +33,14 @@ document.getElementById('rzp-button1').onclick = async function (e){
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
+                document.getElementById('premium-expenses').innerHTML = ` <h5 style="color: white;margin-left: 9%;margin-top: 6px;">SHOW EXPENSES </h5>
+                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 3px;margin-left: 3px;" name="basis" id="showexp">
+                    <option value="Day to Day">Day to Day</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
+                <button type="button" style="margin-left: 3px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY</button>
+                <button type="button" style="margin-left: 2px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button>`     
             })
 
             alert('You are a Premium User Now')
@@ -136,6 +144,14 @@ window.addEventListener('DOMContentLoaded',async ()=>{
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
+                document.getElementById('premium-expenses').innerHTML = ` <h5 style="color: white;margin-left: 9%;margin-top: 6px;">SHOW EXPENSES </h5>
+                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 3px;margin-left: 3px;" name="basis" id="showexp">
+                    <option value="Day to Day">Day to Day</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
+                <button type="button" style="margin-left: 3px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY</button>
+                <button type="button" style="margin-left: 2px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button> `
             }
             for(var i=0;i<response.data.allexpenses.length;i++){
                 newlist(response.data.allexpenses[i]);
