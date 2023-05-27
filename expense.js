@@ -9,6 +9,7 @@ const User = require('./models/signin')
 const Expense = require('./models/expenseTracker')
 const Order = require('./models/order')
 const ForgotPasswordRequests = require('./models/forgotpass')
+const DownloadedFiles = require('./models/downloadedfiles')
 
 var cors = require('cors')
 
@@ -40,6 +41,9 @@ Order.belongsTo(User)
 
 User.hasMany(ForgotPasswordRequests)
 ForgotPasswordRequests.belongsTo(User)
+
+User.hasMany(DownloadedFiles)
+DownloadedFiles.belongsTo(User)
 
 
 sequelize.sync()

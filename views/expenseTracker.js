@@ -1,8 +1,8 @@
 let itemList = document.getElementById('items');
+const token = localStorage.getItem('token')
 
 async function save(event){   
-    try{
-        const token = localStorage.getItem('token')
+    try{        
         event.preventDefault();
         let userObj={        
           amount : event.target.Amount.value,
@@ -19,7 +19,6 @@ async function save(event){
 } 
 
 document.getElementById('rzp-button1').onclick = async function (e){
-    const token = localStorage.getItem('token')
     const response = await axios.get('http://localhost:4000/purchase/premiumMembership',{ headers: { "Authorization" : token}})
     console.log(response)
     let options = {
@@ -33,14 +32,14 @@ document.getElementById('rzp-button1').onclick = async function (e){
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
-                document.getElementById('premium-expenses').innerHTML = ` <h5 style="color: white;margin-left: 9%;margin-top: 6px;">SHOW EXPENSES </h5>
-                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 3px;margin-left: 3px;" name="basis" id="showexp">
+                document.getElementById('premium-expenses').innerHTML = ` <h4 style="color: white;margin-left: 47% ;margin-top: 6px;">REPORT: </h4>
+                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 7px;margin-left: 8px;" name="basis" id="showexp">
                     <option value="Day to Day">Day to Day</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Yearly">Yearly</option>
                 </select>
-                <button type="button" style="margin-left: 3px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY</button>
-                <button type="button" style="margin-left: 2px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button>`     
+                <button type="button" onclick="download()" style="margin-left: 8px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button>
+                <button type="button" onclick="display()" style="margin-left: 8px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY FILES</button>  `    
             })
 
             alert('You are a Premium User Now')
@@ -63,7 +62,7 @@ document.getElementById('rzp-button1').onclick = async function (e){
 async function leaderboard(e){
     try{
         e.preventDefault()
-        const token = localStorage.getItem('token')
+        
         const response = await axios.get('http://localhost:4000/premium/showleaderboard',{ headers: { "Authorization" : token}})
         console.log(response)
         if(response.status === 201){
@@ -77,9 +76,41 @@ async function leaderboard(e){
         console.log(err)
     }
 }
+async function download(){
+    try{
+        const response =await axios.get('http://localhost:4000/user/download',{ headers: { "Authorization" : token}})
+        console.log(response.status)
+        if(response.status === 201 ){
+         var a = document.createElement("a")
+         a.href = response.data;
+         a.download = 'myexpense.csv';
+         a.click();
+        }else{
+            throw new Error(response.data.message)
+        }
+    }catch(err){
+        console.log(err)
+    }
+}
+async function display(){
+    try{
+        const response =await axios.get('http://localhost:4000/user/display',{ headers: { "Authorization" : token}})
+        if(response.status === 201){
+            document.getElementById('display-div').innerHTML = '<h3 style="color: white;">DOWNLOADED FILES: </h3>'
+            document.getElementById('display-files').innerHTML = '';
+            let i = 1;
+            response.data.forEach(file=>{
+               // console.log(file.filesdownloaded)
+                document.getElementById('display-files').innerHTML += ` <li style="color: black;background-color: rgba(250, 242, 255, 0.979);" class="list-group-item">File ${i}   <a href = "${file.filesdownloaded}"> download</a></li>`
+                i++;
+            })
+        }
+    }catch(err){
+        console.log(err)
+    }
+}
 
 function newlist(e){
-      const token = localStorage.getItem('token')
       let li = document.createElement('li');
       li.className='list-group-item';
       let userInfo = `${e.amount} - ${e.category}, ${e.description}` ;
@@ -136,7 +167,6 @@ function newlist(e){
 
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
-        const token = localStorage.getItem('token')
         const response = await axios.get('http://localhost:4000/user/add-expense',{ headers: {"Authorization": token}})
         console.log(response)
         if(response.status === 201){
@@ -144,14 +174,14 @@ window.addEventListener('DOMContentLoaded',async ()=>{
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
-                document.getElementById('premium-expenses').innerHTML = ` <h5 style="color: white;margin-left: 9%;margin-top: 6px;">SHOW EXPENSES </h5>
-                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 3px;margin-left: 3px;" name="basis" id="showexp">
+                document.getElementById('premium-expenses').innerHTML = ` <h4 style="color: white;margin-left: 47% ;margin-top: 6px;">REPORT: </h4>
+                <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 7px;margin-left: 8px;" name="basis" id="showexp">
                     <option value="Day to Day">Day to Day</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Yearly">Yearly</option>
                 </select>
-                <button type="button" style="margin-left: 3px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY</button>
-                <button type="button" style="margin-left: 2px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button> `
+                <button type="button" onclick="download()" style="margin-left: 8px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DOWNLOAD</button>
+                <button type="button" onclick="display()" style="margin-left: 8px;" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light">DISPLAY FILES</button>  `
             }
             for(var i=0;i<response.data.allexpenses.length;i++){
                 newlist(response.data.allexpenses[i]);
