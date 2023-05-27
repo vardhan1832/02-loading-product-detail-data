@@ -1,10 +1,10 @@
 const Expense = require('../models/expenseTracker');
 const sequelize = require('../util/database')
 
-const itemsperpage = 5;
 exports.postExpenses = async (req,res,next)=>{
     const t = await sequelize.transaction()
     try{
+        const itemsperpage = Number(req.row);
         const amount = req.body.amount;
         const category = req.body.categry;
         const description = req.body.descript;
@@ -23,6 +23,7 @@ exports.postExpenses = async (req,res,next)=>{
 }
 exports.getExpenses = async (req,res,next)=>{
     try{
+        const itemsperpage = Number(req.row) ;
         const page = Number(req.params.page) ;
         const numberofexpenses = await Expense.count({
             where: { UserId: req.user.id}

@@ -51,14 +51,24 @@
         <div id="display-div"></div>
             <ul id="display-files" class="list-group"></ul>
         <div>
-            <h3 style="color: white;">Expenses: </h3>
+            <div style="display: flex;">
+                <h3 style="color: white;">Expenses:</h3>
+                <label for="rows" style="color: white;margin-left: 6%;margin-top: 6px;">rows: </label>
+                <select name="rows" id="rows" onchange="getvalue()" style="height: fit-content;margin-left: 3px;margin-top: 6px;">
+                    <option value="5">select rows</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>   
             <ul id="items" class="list-group"></ul><br>
         </div>
-        <div id="lead-div"> 
-        </div>
+
+        <div id="lead-div"> </div>
             <ul id="user-leaderboard" class="list-group"></ul>
            
-            <div id="pagination" class="text-center"></div>
+         <div id="pagination" class="text-center"></div>
     </section>
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

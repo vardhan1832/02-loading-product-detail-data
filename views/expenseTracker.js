@@ -2,6 +2,12 @@ let itemList = document.getElementById('items');
 var pagination = document.getElementById('pagination');
 const token = localStorage.getItem('token')
 
+function getvalue(){
+    let row = document.getElementById('rows').value;
+    localStorage.setItem('row',row)
+}
+const row = localStorage.getItem('row');
+
 async function save(event){   
     try{        
         event.preventDefault();
@@ -10,7 +16,7 @@ async function save(event){
           categry: event.target.category.value,
           descript : event.target.description.value,    
         }
-        const response = await axios.post('http://localhost:4000/user/add-expense',userObj,{ headers: { "Authorization" : token}})
+        const response = await axios.post('http://localhost:4000/user/add-expense',userObj,{ headers: { "Authorization" : token, "row": row}})
         if(response.status === 201){
             // newlist(response.data.userexpense);
             getexpense(response.data.lastpage)
@@ -21,7 +27,7 @@ async function save(event){
 } 
 
 document.getElementById('rzp-button1').onclick = async function (e){
-    const response = await axios.get('http://localhost:4000/purchase/premiumMembership',{ headers: { "Authorization" : token}})
+    const response = await axios.get('http://localhost:4000/purchase/premiumMembership',{ headers: { "Authorization" : token, "row": row}})
     console.log(response)
     let options = {
         "key": response.data.key_id,
@@ -30,7 +36,7 @@ document.getElementById('rzp-button1').onclick = async function (e){
             await axios.post('http://localhost:4000/purchase/updatetransactionstatus',{
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id
-            },{ headers: { "Authorization" : token}} ).then(()=>{
+            },{ headers: { "Authorization" : token, "row": row}} ).then(()=>{
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
                 document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light" style="width: auto;height: 40px;margin-top: 0.2rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
@@ -56,7 +62,7 @@ document.getElementById('rzp-button1').onclick = async function (e){
         const failedresponse =await axios.post('http://localhost:4000/purchase/updatetransactionstatus',{
             order_id: options.order_id,
             payment_id: false
-        },{ headers: { "Authorization" : token}} )     
+        },{ headers: { "Authorization" : token, "row": row}} )     
         alert(failedresponse.data.message)
     })
 }
@@ -65,7 +71,7 @@ async function leaderboard(e){
     try{
         e.preventDefault()
         
-        const response = await axios.get('http://localhost:4000/premium/showleaderboard',{ headers: { "Authorization" : token}})
+        const response = await axios.get('http://localhost:4000/premium/showleaderboard',{ headers: { "Authorization" : token, "row": row}})
         console.log(response)
         if(response.status === 201){
             document.getElementById('lead-div').innerHTML = '<h3 style="color: white;">Leaderboard: </h3>'
@@ -80,7 +86,7 @@ async function leaderboard(e){
 }
 async function download(){
     try{
-        const response =await axios.get('http://localhost:4000/user/download',{ headers: { "Authorization" : token}})
+        const response =await axios.get('http://localhost:4000/user/download',{ headers: { "Authorization" : token, "row": row}})
         console.log(response.status)
         if(response.status === 201 ){
          var a = document.createElement("a")
@@ -96,7 +102,7 @@ async function download(){
 }
 async function display(){
     try{
-        const response =await axios.get('http://localhost:4000/user/display',{ headers: { "Authorization" : token}})
+        const response =await axios.get('http://localhost:4000/user/display',{ headers: { "Authorization" : token , "row": row}})
         if(response.status === 201){
             document.getElementById('display-div').innerHTML = '<h3 style="color: white;">DOWNLOADED FILES: </h3>'
             document.getElementById('display-files').innerHTML = '';
@@ -136,7 +142,7 @@ function newlist(e){
 
       deleteBtn.onclick=async ()=>{   
         try{
-            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token}})
+            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token, "row": row}})
             console.log(res)
             if(res.status === 201){
                 itemList.removeChild(li); 
@@ -153,7 +159,7 @@ function newlist(e){
             document.getElementById('expAmt').value = e.amount;
             document.getElementById('selectcategory').value = e.category;
             document.getElementById('desc').value = e.description;
-            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token}})
+            const res = await axios.delete( `http://localhost:4000/user/add-expense/${li.id}`,{ headers: { "Authorization" : token, "row": row}})
             console.log(res)
             if(res.status === 201){
                 itemList.removeChild(li); 
@@ -194,7 +200,7 @@ function showpagination({
 }
 async function getexpense(page){
     try{
-        const res = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: { "Authorization" : token}})
+        const res = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: { "Authorization" : token, "row": row}})
         if(res.status === 201){
             itemList.innerHTML = ''
             for(var i=0;i<res.data.allexpenses.length;i++){
@@ -211,7 +217,7 @@ async function getexpense(page){
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
         const page = 1;
-        const response = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: {"Authorization": token}})
+        const response = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: {"Authorization": token, "row": row}})
         console.log(response)
         if(response.status === 201){
             if(response.data.isPremiumUser === true){
