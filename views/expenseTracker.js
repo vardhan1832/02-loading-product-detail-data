@@ -186,16 +186,19 @@ function showpagination({
         btn2.innerHTML = previouspage;
         btn2.addEventListener('click',()=> getexpense(previouspage) )
         pagination.appendChild(btn2)
+        console.log('btnpre done')
     }
         const btn1 = document.createElement('button')
         btn1.innerHTML = currentpage;
         btn1.addEventListener('click',()=> getexpense(currentpage))
         pagination.appendChild(btn1)
+        console.log('btn1 done')
     if(hasnextpage){
         const btn3 = document.createElement('button')
         btn3.innerHTML = nextpage ;
         btn3.addEventListener('click',()=> getexpense(nextpage) )
         pagination.appendChild(btn3)
+        console.log('btnnext done')
     }
 }
 async function getexpense(page){
@@ -206,7 +209,7 @@ async function getexpense(page){
             for(var i=0;i<res.data.allexpenses.length;i++){
                 newlist(res.data.allexpenses[i]);
             }
-            showpagination(response.data);
+            showpagination(res.data);
         }
     }catch(err){
         console.log(err)
