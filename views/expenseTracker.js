@@ -1,4 +1,5 @@
 let itemList = document.getElementById('items');
+var pagination = document.getElementById('pagination');
 const token = localStorage.getItem('token')
 
 async function save(event){   
@@ -11,7 +12,8 @@ async function save(event){
         }
         const response = await axios.post('http://localhost:4000/user/add-expense',userObj,{ headers: { "Authorization" : token}})
         if(response.status === 201){
-            newlist(response.data.userexpense);
+            // newlist(response.data.userexpense);
+            getexpense(response.data.lastpage)
         }          
     }catch(err){
         document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`
@@ -31,7 +33,7 @@ document.getElementById('rzp-button1').onclick = async function (e){
             },{ headers: { "Authorization" : token}} ).then(()=>{
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
-                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
+                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light" style="width: auto;height: 40px;margin-top: 0.2rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
                 document.getElementById('premium-expenses').innerHTML = ` <h4 style="color: white;margin-left: 47% ;margin-top: 6px;">REPORT: </h4>
                 <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 7px;margin-left: 8px;" name="basis" id="showexp">
                     <option value="Day to Day">Day to Day</option>
@@ -164,16 +166,58 @@ function newlist(e){
            
       }
 }
+function showpagination({
+    currentpage,
+    hasnextpage,
+    nextpage,
+    haspreviouspage,
+    previouspage,
+    lastpage
+}){
+    pagination.innerHTML = '';
+    if(haspreviouspage){
+        const btn2 = document.createElement('button')
+        btn2.innerHTML = previouspage;
+        btn2.addEventListener('click',()=> getexpense(previouspage) )
+        pagination.appendChild(btn2)
+    }
+        const btn1 = document.createElement('button')
+        btn1.innerHTML = currentpage;
+        btn1.addEventListener('click',()=> getexpense(currentpage))
+        pagination.appendChild(btn1)
+    if(hasnextpage){
+        const btn3 = document.createElement('button')
+        btn3.innerHTML = nextpage ;
+        btn3.addEventListener('click',()=> getexpense(nextpage) )
+        pagination.appendChild(btn3)
+    }
+}
+async function getexpense(page){
+    try{
+        const res = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: { "Authorization" : token}})
+        if(res.status === 201){
+            itemList.innerHTML = ''
+            for(var i=0;i<res.data.allexpenses.length;i++){
+                newlist(res.data.allexpenses[i]);
+            }
+            showpagination(response.data);
+        }
+    }catch(err){
+        console.log(err)
+    }
+    
+}
 
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
-        const response = await axios.get('http://localhost:4000/user/add-expense',{ headers: {"Authorization": token}})
+        const page = 1;
+        const response = await axios.get(`http://localhost:4000/user/add-expense/${page}`,{ headers: {"Authorization": token}})
         console.log(response)
         if(response.status === 201){
             if(response.data.isPremiumUser === true){
                 document.getElementById('rzp-button1').style.visibility = 'hidden';
                 document.getElementById('rzp-update').innerHTML += `<h4 style="color: rgb(255, 255, 255);margin-top: 0.5rem;float: right">Premium Feature: </h4>`;
-                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" style="background-color: rgb(255, 255, 255) ;color: rgb(0, 0, 0);width: auto;height: 30px;margin-top: 0.6rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
+                document.getElementById('rzp-update').innerHTML += ` <button id="rzp-button2" onclick="leaderboard(event)" class="btn mr-md-2 mb-md-0 mb-2 btn-outline-light" style="width: auto;height: 40px;margin-top: 0.2rem;margin-left: 3px;margin-right: 8%">Show Leaderboard</button>`
                 document.getElementById('premium-expenses').innerHTML = ` <h4 style="color: white;margin-left: 47% ;margin-top: 6px;">REPORT: </h4>
                 <select style="width: 200px;height: 30px;font-size: smaller;margin-top: 7px;margin-left: 8px;" name="basis" id="showexp">
                     <option value="Day to Day">Day to Day</option>
@@ -186,8 +230,10 @@ window.addEventListener('DOMContentLoaded',async ()=>{
             for(var i=0;i<response.data.allexpenses.length;i++){
                 newlist(response.data.allexpenses[i]);
             }
+            showpagination(response.data);
         }
     }catch(err){
+        console.log(err)
         document.body.innerHTML += `<section class="container"><div style="color:red;">${err.message}</div></section>`   
     }
 

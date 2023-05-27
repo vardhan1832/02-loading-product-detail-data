@@ -4,7 +4,7 @@ const userauthentication = require('../middleware/auth')
 const router = express.Router();
 
 router.post('/add-expense',userauthentication.authentication ,expenseController.postExpenses);
-router.get('/add-expense',userauthentication.authentication ,expenseController.getExpenses)
+router.get('/add-expense/:page',userauthentication.authentication ,expenseController.getExpenses)
 router.delete('/add-expense/:expid',userauthentication.authentication ,expenseController.deleteExpense)
 
 module.exports = router;
