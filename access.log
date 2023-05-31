@@ -1,0 +1,2 @@
+::1 - - [29/May/2023:07:44:19 +0000] "GET /user/add-expense/1 HTTP/1.1" 201 924 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+::1 - - [29/May/2023:07:44:31 +0000] "GET /user/add-expense/2 HTTP/1.1" 201 927 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
