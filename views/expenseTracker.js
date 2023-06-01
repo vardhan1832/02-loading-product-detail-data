@@ -6,6 +6,7 @@ function getvalue(){
     let row = document.getElementById('rows').value;
     localStorage.setItem('row',row)
 }
+getvalue()
 const row = localStorage.getItem('row');
 
 async function save(event){   
