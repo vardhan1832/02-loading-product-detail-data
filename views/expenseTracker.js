@@ -219,6 +219,7 @@ async function getexpense(page){
 
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
+        getvalue()
         const page = 1;
         const response = await axios.get(`http://50.19.4.74:4000/user/add-expense/${page}`,{ headers: {"Authorization": token, "row": row}})
         console.log(response)
