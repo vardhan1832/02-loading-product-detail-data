@@ -28,7 +28,6 @@ const premiumfeatureroutes = require('./routes/premiumfeature')
 
 const filestreamaccess = fs.createWriteStream(path.join(__dirname,'access.log'),{flags: 'a'})
 
-app.use(helmet())
 app.use(morgan('combined',{stream: filestreamaccess}))
 
 app.use(bodyParser.json({ extended: false }));
