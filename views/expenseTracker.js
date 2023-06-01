@@ -131,16 +131,18 @@ function newlist(e){
       li.appendChild(document.createTextNode(userInfo));
 
       var deleteBtn = document.createElement('button');
-      deleteBtn.className = 'btn float-right delete ';
-      deleteBtn.style.backgroundColor = 'rgb(241, 199, 199)';        
+      deleteBtn.className = 'btn mr-md-2 mb-md-0 mb-2 btn-outline-danger float-right delete ';
+      //deleteBtn.style.backgroundColor = 'rgb(241, 199, 199)';   
+      deleteBtn.style.marginLeft = '20px'     
       deleteBtn.appendChild(document.createTextNode('delete'));
       li.appendChild(deleteBtn);
 
       var editBtn = document.createElement('button');
-      editBtn.className = 'btn  float-right edit';       
+      editBtn.className = 'btn mr-md-2 mb-md-0 mb-2 btn-outline-danger float-right edit';       
       editBtn.appendChild(document.createTextNode('edit'));
       li.appendChild(editBtn);
-      editBtn.style.backgroundColor = 'rgb(241, 199, 199)';
+      //editBtn.style.backgroundColor = 'rgb(241, 199, 199)';
+      editBtn.style.marginLeft = '4px'
       itemList.appendChild(li);
 
       deleteBtn.onclick=async ()=>{   
