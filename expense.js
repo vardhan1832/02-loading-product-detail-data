@@ -43,6 +43,11 @@ app.use('/user',expenseroutes)
 app.use(purchaseroutes)
 app.use(premiumfeatureroutes)
 
+app.use((req,res)=>{
+    console.log('url',req.url)
+    res.sendFile(path.join(__dirname,`views/${req.url}`))
+})
+
 //console.log(process.env.NODE_ENV)
 
 User.hasMany(Expense)
