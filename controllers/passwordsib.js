@@ -18,7 +18,7 @@ exports.forgotpassword = async (req,res,next)=>{
                 from: 'sreevardhan259@gmail.com',
                 subject: 'Forgot Password',
                 text: 'Use the link to reset your password',
-                html: `<a href='http://localhost:4000/password/resetpassword/${id}'>Click here to reset your password</a>`
+                html: `<a href='http://3.91.83.80:4000/password/resetpassword/${id}'>Click here to reset your password</a>`
             }
 
             sgMail.send(msg)
